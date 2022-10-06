@@ -39,34 +39,41 @@ class IsContainer{
     };
 
 template<typename T,typename... Types>
+class IsContainer<std::list<T,Types...>> {
+public:
+    static const bool value = true;
+};
+
+
+template<typename T,typename... Types>
 class IsContainer<std::vector<T,Types...>>{
 public:
     static const bool value = true;
 };
+
 //获取容器类型的模板
 template<typename T, typename... Types>
 constexpr bool is_container = IsContainer<T, Types...>::value;
 
 
-template<typename T>
-void print_Container_Optimize(const T &contain){
-    for (auto it = contain.begin(); it != contain.end(); ++it) {
-        auto item = *it;
-       if(is_container<decltype(item)>){
-           print_Container_Optimize(item);
-       } else
-           print_Container(contain);
-    }
-    cout << endl;
-}
+//template<typename T>
+//void print_Container_Optimize(const T &contain){
+//    for (auto it = contain.begin(); it != contain.end(); ++it) {
+//        auto item = *it;
+//       if(is_container<decltype(item)>){
+//           print_Container_Optimize(item);
+//       } else
+//    }
+//    cout << endl;
+//}
 int main(){
     std::string string = "Stringxxxx";
     print_Container(string);
 
     std::vector<std::string> vs = {string, string, "Wexxx"};
-    print_Container_Optimize(vs);
+//    print_Container_Optimize(vs);
 
     std::vector<std::vector<std::string>> vvs = {vs, vs, vs};
-    print_Container_Optimize(vvs);
+//    print_Container_Optimize(vvs);
     return 0;
 }
